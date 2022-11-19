@@ -1,0 +1,68 @@
+server:
+  port: 8080
+  servlet:
+    multipart:
+      max-request-size: 5GB  # 上传文件总的最大值 默认10MB
+      max-file-size: 1GB #单个文件最大值 默认10MB
+    context-path: /boot
+
+###文件上传
+file:
+  ###静态资源对外暴露的访问路径
+  staticAccessPath: /file/**
+  ###静态资源实际存储路径
+  uploadFolder: D:/takeout/server/myFile/
+  uploadImage: image/
+
+
+spring:
+  # redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 1000
+    # password:
+    pool:
+      minIdle: 5
+      maxIdle: 200
+      maxWait: 10000
+      maxActive: 8
+  datasource:
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/takeoutweb?useSSL=false&amp&serverTimezone=UTC
+      username: root
+      password: chenxiang
+#  rocketmq:
+#    name-server: 127.0.0.1:9876
+#    producer:
+#      #必须指定group
+#      group: test-group
+
+
+mybatis-plus:
+  global-config:
+
+    db-config:
+      table-prefix:
+      id-type:
+#      logic-delete-field:"delete"
+#      logic-delete-value:1
+#      logic-not-delete-value:0
+
+
+    banner: false
+
+#mybatis plus调试打印日志(查看sql)
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #开启驼峰命名转换
+    map-underscore-to-camel-case: true
+
+rocketmq:
+  producer:
+    producer-group: CoisiniProducerGroup
+  consumer:
+    consumer-group: CoisiniConsumerGroup
+  namesrv-addr: 127.0.0.1:9876

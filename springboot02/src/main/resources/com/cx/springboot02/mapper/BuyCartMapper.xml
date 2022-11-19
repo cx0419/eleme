@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cx.springboot02.mapper.BuyCartMapper">
+
+    <insert  id="insertBuyCart" parameterType="com.cx.springboot02.pojo.BuyCart"  useGeneratedKeys="true" keyProperty = "id" keyColumn = "id">
+        insert into takeoutweb.buy_cart(session_id, customer_id, create_time, shop_id, entities,json_entities) values (#{sessionId},#{customerId},
+                                                                                                        #{createTime},#{shopId},#{entities},#{jsonEntities})
+    </insert>
+    <select id="selectCartDataDtoById" resultType="com.cx.springboot02.dto.CartDataDto">
+        select *
+        from takeoutweb.buy_cart
+        where id = #{id}
+    </select>
+</mapper>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cx.springboot02.mapper.GoodsMapper">
+
+    <select id="selectGoodsByCId" resultType="com.cx.springboot02.pojo.Goods">
+        select *
+        from takeoutweb.goods
+        where goods.category_id = #{cid}
+    </select>
+    <select id="selectSpuList" resultType="com.cx.springboot02.data.vo.SpuDetailVo">
+        select takeoutweb.goods.*,business.id as shopId,business.name as ShopName,business.address as shopAddress,category.name as categoryName
+        from takeoutweb.goods
+        JOIN takeoutweb.category  ON goods.`category_id` = category.`id`
+        JOIN takeoutweb.business ON category.`business_id` = business.`id`
+        <where>
+            <if test="key != null">
+                and takeoutweb.goods.name like #{key}
+            </if>
+            <if test="categoryId != null">
+                and takeoutweb.goods.category_id = #{categoryId}
+            </if>
+            <if test="id != null">
+                and takeoutweb.goods.id = #{id}
+            </if>
+            <if test="shopId != null">
+                and takeoutweb.business.id like #{shopId}
+            </if>
+        </where>
+        <if test="pagesize != null and offset != null">
+            limit ${offset}, ${pagesize}
+        </if>
+    </select>
+    <select id="selectSpuListCount" resultType="java.lang.Integer">
+        select count(*)
+        from takeoutweb.goods
+        <if test="shopId != null">
+            JOIN takeoutweb.category  ON goods.`category_id` = category.`id`
+            JOIN takeoutweb.business ON category.`business_id` = business.`id`
+        </if>
+        <where>
+            <if test="key != null">
+                and takeoutweb.goods.name like #{key}
+            </if>
+            <if test="categoryId != null">
+                and takeoutweb.goods.category_id = #{categoryId}
+            </if>
+            <if test="id != null">
+                and takeoutweb.goods.id = #{id}
+            </if>
+            <if test="shopId != null">
+                and takeoutweb.business.id like #{shopId}
+            </if>
+        </where>
+    </select>
+</mapper>

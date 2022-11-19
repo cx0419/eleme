@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cx.springboot02.mapper.OrderMapper">
+
+    <insert id="insertOrder"  useGeneratedKeys="true" keyProperty = "id" keyColumn = "id">
+        insert into takeoutweb.`order`(address_id, customer_id, buycart_id, shop_id, geohash, remarks,order_state,create_time) values (#{addressId},#{customerId},#{buycartId},#{shopId},#{geohash},#{remarks},#{orderState},#{createTime});
+
+    </insert>
+    <update id="updateOrder">
+        update takeoutweb.`order` set order_state = #{orderState} where id=#{id}
+    </update>
+    <select id="selectOrderListByCId" resultType="com.cx.springboot02.dto.OrderListDto">
+        SELECT *
+        FROM takeoutweb.`order`
+        <where>
+            <if test="key != null">
+                takeoutweb.order.address like #{key}
+            </if>
+            <if test="cid != null">
+                takeoutweb.order.customer_id like #{cid}
+            </if>
+        </where>
+        <if test="pagesize != null and offset != null">
+            limit ${offset}, ${pagesize}
+        </if>
+    </select>
+
+</mapper>
